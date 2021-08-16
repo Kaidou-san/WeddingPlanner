@@ -1,0 +1,33 @@
+@model User
+
+<h1>Welcome To the Wedding Planner!</h1>
+<a href="logout">logout</a> |
+
+<table class="table table-striped">
+    <tr>
+        <th>Wedding</th>
+        <th>Date</th>
+        <th>Guest</th>
+        <th>Action</th>
+    </tr>
+    @{
+        foreach (Wedding w in ViewBag.AllWeddings)
+        {
+            <tr>
+                <td><a href="/wedding/@w.WeddingId">@w.WedderOne & @w.WedderTwo</a></td>
+                <td>@w.Date</td>
+                <td>@w.GuestsWhoGoing.Count</td>
+                <td>@{
+                    if(w.GuestsWhoGoing.Any(a => a.UserId == ViewBag.User.UserId))
+                    {
+                        <a href="/UnRSVP/@ViewBag.User.UserId/@w.WeddingId"><img src="~/images/fullheart.png" alt="RSVP"/></a>
+                    }else{
+                        <a href="/RSVP/@ViewBag.User.UserId/@w.WeddingId"><img src="~/images/emptyheart.png" alt="unRSVP"/></a>
+                    }
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>
+<a href="/addWedding">New Wedding</a>
